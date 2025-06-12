@@ -5,7 +5,11 @@ if (!MONGODB_CS) {
   throw new Error("MONGODB_CS environment variable is not found");
 }
 
-const dbconnection = async () => {
+const dbconnect = async () => {
+  if (mongoose.connection.readyState === 1) {
+    console.log("database already connected");
+    return;
+  }
   try {
     await mongoose.connect(MONGODB_CS);
     console.log("Connected to MongoDB successfully");
@@ -13,4 +17,4 @@ const dbconnection = async () => {
     console.log("Error connecting to MongoDB:", error);
   }
 };
-export default dbconnection;
+export default dbconnect;
